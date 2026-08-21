@@ -1,0 +1,118 @@
+{
+    "name": "Mockapi Test Addon",
+    "addon_key": "mockapi",
+    "addon_tags" :["integration", "form","module" , "api"], 
+    "version": "1.0.0",
+    "description": "A mock API addon for testing purposes.",
+    "author": "TheAkisTea",
+    "license": "MIT",
+    "type": "REST",
+    "view_type": "MFE",
+    "view_path": "views/dist",
+    "component_scope": "mokapi_view",
+    "custom_views": {
+        "CONFIGS": {
+            "CREATE": "create_view",
+            "EDIT": "create_view"
+        },
+        "ACTIONS" : {
+            "postData": "create_view",
+            "getData": "create_view",
+            "deleteData": "create_view"
+        },
+        "FORMS": {
+            "nib_list": "config_view"
+        },
+        "VIEWS": {
+            "nib_list": "config_view"
+        },
+        "DETAILS": {
+            
+        }
+    },
+    "config": {
+    },
+    "forms" : {
+        "nib_list" : {
+            "name": "NIB List Form",
+            "description": "Form to collect NIB related information."
+        }
+    },
+    "views" : {
+        "nib_list" : {
+            "name": "NIB List View",
+            "description": "View to display NIB related information in table format."
+        }
+    },
+    "scripts": {
+        "deleteData": {
+            "description": "Script for deleting data by ID with soft/hard delete support.",
+            "scripts": {
+                "type": "python",
+                "executable": "scripts/delete_data/delete_data.py"
+            }
+        }
+    },
+    "apis" : {
+        "getPartner": {
+            "name": "Mock API",
+            "description": "API for interacting with the mock data service.",
+            "type" : "SCRIPT",
+            "script": "getData"
+        }, 
+        "getPartnerBank": {
+            "name": "Mock API Bank",
+            "description": "API for interacting with the mock bank data service.",
+            "type" : "SCRIPT",
+            "script": "getPartnerBank"
+        }
+    },
+    "actions": {
+        "getData": {
+            "name": "Get Mock Data",
+            "description": "Fetch data from the mock API.",
+            "type": "REST",
+            "method": "GET",
+            "endpoint": "/data/:id",
+            "pathVariable": [
+                {
+                    "key": "id",
+                    "value": "1",
+                    "type": "number",
+                    "required": false
+                }
+            ],
+            "queryParams": [
+                {
+                    "key": "limit",
+                    "value": "10",
+                    "type": "number",
+                    "required": false
+                }
+            ]
+        },
+        "postData": {
+            "name": "Post Mock Data",
+            "description": "Send data to the mock API.",
+            "method": "POST",
+            "type": "REST",
+            "endpoint": "/api/bkpm/nib",
+            "body": {
+                "nomor": "1234567890123456",
+                "id_kbli": "46100",
+                "nama_pelaku_usaha": "PT Maju Jaya Abadi",
+                "alamat_kantor": "${variables.initiator}",
+                "no_telepon": "021-5551234",
+                "email": "${variables.initiator}",
+                "skala_usaha": "Mikro",
+                "sertifikat_url": "https://example.com/files/sertifikat.pdf"
+            }
+        },
+        "deleteData": {
+            "name": "Delete Mock Data",
+            "description": "Delete data from the mock API.",
+            "type": "SCRIPT",
+            "endpoint": "deleteData"
+        }
+    }
+}
